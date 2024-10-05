@@ -39,7 +39,6 @@ public class SteamService {
 
     public String getUserInfo(String steamId) {
         String url = String.format("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s", steamApiKey, steamId);
-        RestTemplate restTemplate = new RestTemplate();
         String response = restTemplate.getForObject(url, String.class);
 
         try {

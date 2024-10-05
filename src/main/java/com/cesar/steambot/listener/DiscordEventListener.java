@@ -24,7 +24,7 @@ public class DiscordEventListener extends ListenerAdapter {
                 String userInfo = steamService.getUserInfo(steamService.getSteamIdFromUsername(steamUsername));
                 event.getChannel().sendMessage(userInfo).queue();
             } else {
-                event.getChannel().sendMessage("Please provide a Steam Username.").queue();
+                event.getChannel().sendMessage("Usage: !steamprofile <Steam Username>").queue();
             }
         }
     }
