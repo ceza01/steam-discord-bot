@@ -16,16 +16,6 @@ public class DiscordEventListener extends ListenerAdapter {
     }
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        if (event.getMessage().getContentRaw().startsWith("!steamprofile")) {
-            User user = event.getAuthor();
-            String[] parts = event.getMessage().getContentRaw().split(" ");
-            if (parts.length > 1) {
-                String steamUsername = parts[1];
-                String userInfo = steamService.getUserInfo(steamService.getSteamIdFromUsername(steamUsername));
-                event.getChannel().sendMessage(userInfo).queue();
-            } else {
-                event.getChannel().sendMessage("Usage: !steamprofile <Steam Username>").queue();
-            }
-        }
+        // TODO lidar com comandos recebidos pelo command
     }
 }
