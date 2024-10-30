@@ -1,7 +1,7 @@
 package com.cesar.steambot;
 
+import com.cesar.steambot.commands.CommandManager;
 import com.cesar.steambot.listener.DiscordEventListener;
-import com.cesar.steambot.service.SteamService;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class SteamBotApplication {
 	private String discordToken;
 
 	@Autowired
-	private SteamService steamService;
+	private CommandManager commandManager;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SteamBotApplication.class, args);
@@ -29,7 +29,7 @@ public class SteamBotApplication {
 		return args -> {
 			try {
 				JDABuilder builder = JDABuilder.createDefault(discordToken);
-				builder.addEventListeners(new DiscordEventListener(steamService));
+				builder.addEventListeners(new DiscordEventListener(commandManager));
 				builder.enableIntents(GatewayIntent.MESSAGE_CONTENT)
 						.build();
 			} catch (Exception e) {

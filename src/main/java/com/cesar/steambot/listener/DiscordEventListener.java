@@ -1,7 +1,6 @@
 package com.cesar.steambot.listener;
 
-import com.cesar.steambot.service.SteamService;
-import net.dv8tion.jda.api.entities.User;
+import com.cesar.steambot.commands.CommandManager;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.stereotype.Component;
@@ -9,13 +8,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class DiscordEventListener extends ListenerAdapter {
 
-    private final SteamService steamService;
+    private final CommandManager commandManager;
 
-    public DiscordEventListener(SteamService steamService) {
-        this.steamService = steamService;
+    public DiscordEventListener(CommandManager commandManager) {
+        this.commandManager = commandManager;
     }
     @Override
     public void onMessageReceived(MessageReceivedEvent event) {
-        // TODO lidar com comandos recebidos pelo command
+        if (event.getAuthor().isBot()) {
+            return;
+        }
+        if (event.getMessage().getContentRaw().startsWith("!")){
+            commandManager.handleCommand(event);
+        }
     }
 }

@@ -2,7 +2,9 @@ package com.cesar.steambot.commands;
 
 import com.cesar.steambot.service.SteamService;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.springframework.stereotype.Component;
 
+@Component("!steamprofile")
 public class SteamProfileCommand implements Command {
 
     private final SteamService steamService;
