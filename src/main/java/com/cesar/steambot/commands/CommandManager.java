@@ -23,7 +23,7 @@ public class CommandManager {
         if (command != null){
             command.execute(event);
         } else {
-            event.getChannel().sendMessage("Unknow command. Type !help for a list of availabe commands.");
+            event.getChannel().sendMessage("Unknown command. Type !help for a list of available commands.").queue();
         }
     }
 }
