@@ -20,7 +20,7 @@ public class SteamService {
     }
 
     public String getSteamIdFromUsername(String username) {
-        String url = String.format("http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=%s&vanityurl=%s", steamApiKey, username);
+        String url = String.format("https://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key=%s&vanityurl=%s", steamApiKey, username);
         String response = restTemplate.getForObject(url, String.class);
 
         try {
@@ -38,7 +38,7 @@ public class SteamService {
     }
 
     public String getUserInfo(String steamId) {
-        String url = String.format("http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s", steamApiKey, steamId);
+        String url = String.format("https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=%s&steamids=%s", steamApiKey, steamId);
         String response = restTemplate.getForObject(url, String.class);
 
         try {
@@ -57,7 +57,7 @@ public class SteamService {
     }
 
     public String getUserOwnedGamesNumber(String steamId) {
-        String url = String.format("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=%s&steamid=%s", steamApiKey, steamId);
+        String url = String.format("https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=%s&steamid=%s", steamApiKey, steamId);
         String response = restTemplate.getForObject(url, String.class);
 
         try {
