@@ -9,7 +9,7 @@ public class HelpCommand implements Command {
     @Override
     public void execute(MessageReceivedEvent event) {
         String helpMessage = "List of available commands:\n" +
-                "!steamprofile <Steam Username> - display the player name and profile link\n" +
+                "!steamprofile <Steam Username> - display basic info of the player's profile\n" +
                 "!help - display available commands";
         event.getChannel().sendMessage(helpMessage).queue();
     }

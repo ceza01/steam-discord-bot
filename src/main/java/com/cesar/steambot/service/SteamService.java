@@ -47,12 +47,28 @@ public class SteamService {
             String realName = playerData.path("realname").asText();
             String profileUrl = playerData.path("profileurl").asText();
 
-            return String.format("Player: %s\nProfile: %s",
-                    realName, profileUrl);
+            return String.format("Player: %s\nProfile: %s \nGames Owned: %s",
+                    realName, profileUrl, getUserOwnedGamesNumber(steamId));
 
         } catch (Exception e) {
             e.printStackTrace();
             return "Failed to retrieve user data.";
+        }
+    }
+
+    public String getUserOwnedGamesNumber(String steamId) {
+        String url = String.format("http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=%s&steamid=%s", steamApiKey, steamId);
+        String response = restTemplate.getForObject(url, String.class);
+
+        try {
+            JsonNode jsonResponse = objectMapper.readTree(response);
+            JsonNode playerGames = jsonResponse.path("response");
+            String gamesOwned = playerGames.path("game_count").asText();
+
+            return String.format(gamesOwned);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to retrieve user games";
         }
     }
 }
