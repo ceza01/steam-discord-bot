@@ -71,4 +71,19 @@ public class SteamService {
             return "Failed to retrieve user games";
         }
     }
+
+    public String getRecentGamesPlayedByUser(String steamId){
+        String url = String.format("https://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=%s&steamid=%s", steamApiKey, steamId);
+        String response = restTemplate.getForObject(url, String.class);
+
+        try {
+            JsonNode jsonResponse = objectMapper.readTree(response);
+            String totalGames = jsonResponse.path("response").path("total_count").asText();
+
+            return String.format("User played %s games in the last two weeks", totalGames);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to retrieve user recent games.";
+        }
+    }
 }
