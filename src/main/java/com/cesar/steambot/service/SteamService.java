@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SteamService {
@@ -78,9 +80,22 @@ public class SteamService {
 
         try {
             JsonNode jsonResponse = objectMapper.readTree(response);
-            String totalGames = jsonResponse.path("response").path("total_count").asText();
+            int totalGames = jsonResponse.path("response").path("total_count").asInt();
+            List<String> gameDeatilsResponse = new ArrayList<>();
 
-            return String.format("User played %s games in the last two weeks", totalGames);
+            for (int i = 0; i < totalGames; i++){
+                JsonNode games = jsonResponse.path("response").path("games").get(i);
+                String gameName = games.path("name").asText();
+                int hoursLastTwoWeeks = games.path("playtime_2weeks").asInt() / 60;
+                int hoursTotal = games.path("playtime_forever").asInt() / 60;
+
+                gameDeatilsResponse.add(String.format("Game: %s\nHours in last two weeks: %d\nTotal hours: %d\n\n",
+                        gameName, hoursLastTwoWeeks, hoursTotal));
+
+            }
+            return "Games played by the user in the last two weeks:\n\n" + String.join("\n", gameDeatilsResponse)
+                    + "User played a total of " + totalGames + " in the last two weeks!";
+
         } catch (Exception e) {
             e.printStackTrace();
             return "Failed to retrieve user recent games.";
