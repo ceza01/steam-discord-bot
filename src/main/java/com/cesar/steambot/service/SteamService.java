@@ -86,16 +86,15 @@ public class SteamService {
             for (int i = 0; i < totalGames; i++){
                 JsonNode games = jsonResponse.path("response").path("games").get(i);
                 String gameName = games.path("name").asText();
-                int hoursLastTwoWeeks = games.path("playtime_2weeks").asInt() / 60;
-                int hoursTotal = games.path("playtime_forever").asInt() / 60;
+                double hoursLastTwoWeeks = games.path("playtime_2weeks").asDouble() / 60;
+                double hoursTotal = games.path("playtime_forever").asDouble() / 60;
 
-                gameDeatilsResponse.add(String.format("Game: %s\nHours in last two weeks: %d\nTotal hours: %d\n\n",
+                gameDeatilsResponse.add(String.format("Game: %s\nHours in last two weeks: %.2fh\nTotal hours: %.2fh\n",
                         gameName, hoursLastTwoWeeks, hoursTotal));
 
             }
             return "Games played by the user in the last two weeks:\n\n" + String.join("\n", gameDeatilsResponse)
-                    + "User played a total of " + totalGames + " in the last two weeks!";
-
+                    + "\nUser played a total of " + totalGames + " games in the last two weeks!";
         } catch (Exception e) {
             e.printStackTrace();
             return "Failed to retrieve user recent games.";
