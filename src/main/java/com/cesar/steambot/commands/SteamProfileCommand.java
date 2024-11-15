@@ -17,11 +17,17 @@ public class SteamProfileCommand implements Command {
     public void execute(MessageReceivedEvent event) {
         String[] parts = event.getMessage().getContentRaw().split(" ");
         if (parts.length > 1) {
-            String steamUsername = parts[1];
-            String userInfo = steamService.getUserInfo(steamService.getSteamIdFromUsername(steamUsername));
-            event.getChannel().sendMessage(userInfo).queue();
+            if (parts[1].matches("^76561198\\d{9}$")){ // check if the user passed the ID
+                String steamId = parts[1];
+                String userInfo = steamService.getUserInfo(steamId);
+                event.getChannel().sendMessage(userInfo).queue();
+            } else { // if the user have a vanity url the username will work
+                String steamUsername = parts[1];
+                String userInfo = steamService.getUserInfo(steamService.getSteamIdFromUsername(steamUsername));
+                event.getChannel().sendMessage(userInfo).queue();
+            }
         } else {
-            event.getChannel().sendMessage("Usage: !steamprofile <Steam Username>").queue();
+            event.getChannel().sendMessage("Usage: !steamprofile <Steam ID or your custom URL name>").queue();
         }
     }
 }
