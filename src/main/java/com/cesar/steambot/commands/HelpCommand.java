@@ -9,9 +9,9 @@ public class HelpCommand implements Command {
     @Override
     public void execute(MessageReceivedEvent event) {
         String helpMessage = "List of available commands:\n" +
-                "!steamprofile <Steam Username> - display basic info of the player's profile\n" +
+                "!steamprofile <Steam ID or your custom URL name> - display basic info of the player's profile\n" +
                 "!help - display available commands\n" +
-                "!recentgames <Steam Username> - display recent games played by the user in the last two weeks\n";
+                "!recentgames <Steam ID or your custom URL name> - display recent games played by the user in the last two weeks\n";
         event.getChannel().sendMessage(helpMessage).queue();
     }
 }

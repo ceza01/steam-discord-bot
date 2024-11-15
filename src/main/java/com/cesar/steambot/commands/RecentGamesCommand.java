@@ -17,11 +17,17 @@ public class RecentGamesCommand implements Command {
     public void execute(MessageReceivedEvent event) {
         String[] parts = event.getMessage().getContentRaw().split(" ");
         if (parts.length > 1) {
-            String steamUsername = parts[1];
-            String userRecentGames  = steamService.getRecentGamesPlayedByUser(steamService.getSteamIdFromUsername(steamUsername));
-            event.getChannel().sendMessage(userRecentGames).queue();
+            if (parts[1].matches("^76561198\\d{9}$")) {
+                String steamId = parts[1];
+                String userRecentGames  = steamService.getRecentGamesPlayedByUser(steamId);
+                event.getChannel().sendMessage(userRecentGames).queue();
+            } else {
+                String steamUsername = parts[1];
+                String userRecentGames  = steamService.getRecentGamesPlayedByUser(steamService.getSteamIdFromUsername(steamUsername));
+                event.getChannel().sendMessage(userRecentGames).queue();
+            }
         } else {
-            event.getChannel().sendMessage("Usage: !recentgames <Steam Username>").queue();
+            event.getChannel().sendMessage("Usage: !recentgames <Steam ID or your custom URL name>").queue();
         }
     }
 }
